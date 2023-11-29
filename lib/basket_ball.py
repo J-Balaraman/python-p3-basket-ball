@@ -1,3 +1,5 @@
+import math
+
 def game_dict():
     return {
         "home": {
@@ -182,3 +184,102 @@ def game_dict():
             ]
         }
     }
+
+home_team_roster = game_dict()['home']['players']
+away_team_roster = game_dict()['away']['players']
+
+def round_up(n, decimals=0):
+    multiplier = 10**decimals
+    return math.ceil(n * multiplier) / multiplier
+
+def truncate(n, decimals=0):
+    multiplier = 10**decimals
+    return int(n * multiplier) / multiplier
+
+def num_points_per_game(name):
+    for n in range(len(home_team_roster)):
+        if home_team_roster[n]['name'] == name:
+            return home_team_roster[n]['points_per_game']
+    for n in range(len(away_team_roster)):
+        if away_team_roster[n]['name'] == name:
+            return away_team_roster[n]['points_per_game']
+
+def player_age(name):
+    for n in range(len(home_team_roster)):
+        if home_team_roster[n]['name'] == name:
+            return home_team_roster[n]['age']
+    for n in range(len(away_team_roster)):
+        if away_team_roster[n]['name'] == name:
+            return away_team_roster[n]['age']
+
+def team_colors(team_name):
+    if game_dict()['home']['team_name'] == team_name:
+        return game_dict()['home']['colors']
+    else:
+        return game_dict()['away']['colors']
+
+def team_names():
+    return [game_dict()['home']['team_name'], game_dict()['away']['team_name']]
+
+def player_numbers(team_name):
+    player_numbers = []
+    if game_dict()['home']["team_name"] == team_name:
+        for n in range(len(home_team_roster)):
+            player_numbers.append(home_team_roster[n]['number'])
+    else:
+        for n in range(len(away_team_roster)):
+            player_numbers.append(away_team_roster[n]['number'])
+    return player_numbers
+def player_stats(name):
+    for n in range(len(home_team_roster)):
+        if home_team_roster[n]['name'] == name:
+            return home_team_roster[n]
+    for n in range(len(away_team_roster)):
+        if away_team_roster[n]['name'] == name:
+            return away_team_roster[n]
+
+def average_rebounds_by_shoe_brand():
+    tot_jordan = 0
+    tot_adidas = 0
+    tot_nike = 0
+    tot_puma = 0
+    player_jordan = 0
+    player_adidas = 0
+    player_nike = 0
+    player_puma = 0
+    for n in range(len(home_team_roster)):
+        if home_team_roster[n]['shoe_brand'] == 'Jordan':
+            tot_jordan += home_team_roster[n]["rebounds_per_game"]
+            player_jordan += 1
+        if home_team_roster[n]['shoe_brand'] == 'Adidas':
+            tot_adidas += home_team_roster[n]["rebounds_per_game"]
+            player_adidas += 1
+        if home_team_roster[n]['shoe_brand'] == 'Nike':
+            tot_nike += home_team_roster[n]["rebounds_per_game"]
+            player_nike += 1
+        if home_team_roster[n]['shoe_brand'] == 'Puma':
+            tot_puma += home_team_roster[n]["rebounds_per_game"]
+            player_puma += 1
+    for n in range(len(away_team_roster)):
+        if away_team_roster[n]['shoe_brand'] == 'Jordan':
+            tot_jordan += away_team_roster[n]["rebounds_per_game"]
+            player_jordan += 1
+        if away_team_roster[n]['shoe_brand'] == 'Adidas':
+            tot_adidas += away_team_roster[n]["rebounds_per_game"]
+            player_adidas += 1
+        if away_team_roster[n]['shoe_brand'] == 'Nike':
+            tot_nike += away_team_roster[n]["rebounds_per_game"]
+            player_nike += 1
+        if away_team_roster[n]['shoe_brand'] == 'Puma':
+            tot_puma += away_team_roster[n]["rebounds_per_game"]
+            player_puma += 1
+
+    ave_nike = round_up((tot_nike / player_nike), 2)
+    ave_adidas = round_up((tot_adidas / player_adidas), 2)
+    ave_puma = round_up((tot_puma / player_puma), 2)
+    ave_jordan = round_up((tot_jordan / player_jordan), 2)
+
+    bing = {"Nike" : ave_nike, "Adidas" : ave_adidas, "Puma" : f'{ave_puma}0', "Jordan" : f'{ave_jordan}0'}
+
+    for item in bing:
+        print(f'{item}:  {bing[item]}')
